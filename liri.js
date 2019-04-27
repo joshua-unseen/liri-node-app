@@ -23,10 +23,22 @@ switch (command) {
             // console.log(ack.data);
             var theConcerts = ack.data;
             // Filter for venue, location, date for *each* event
-            for (var i = 0; i < theConcerts.length; i++) {
-                console.log(theConcerts[i].venue.name);
-                console.log(theConcerts[i].venue.city);
-                console.log(theConcerts[i].datetime);
+            if (theConcerts.length) {
+                console.log("I found these " + parameter + " concerts:")
+                for (var i = 0; i < theConcerts.length; i++) {
+                    theRegion = "";
+                    if (theConcerts[i].venue.region.length) {
+                        theRegion = theConcerts[i].venue.region + ", ";
+                    }
+                    console.log("");
+                    console.log(theConcerts[i].venue.name);
+                    console.log(theConcerts[i].venue.city + ", "
+                        + theRegion + theConcerts[i].venue.country);
+                    console.log(theConcerts[i].datetime);
+                }
+            }
+            else {
+                console.log(parameter + " is not touring, I'm afraid.")
             }
         }).catch(OhCrap);
         break;
