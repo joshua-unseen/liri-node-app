@@ -20,8 +20,14 @@ switch (command) {
         var getURL = "https://rest.bandsintown.com/artists/" + parameter
             + "/events?app_id=" + keys.axios.bit;
         axios.get(getURL).then(function (ack) {
-            console.log(JSON.stringify(ack));
-            // Filter for venue, location, date for *each* event.
+            // console.log(ack.data);
+            var theConcerts = ack.data;
+            // Filter for venue, location, date for *each* event
+            for (var i = 0; i < theConcerts.length; i++) {
+                console.log(theConcerts[i].venue.name);
+                console.log(theConcerts[i].venue.city);
+                console.log(theConcerts[i].datetime);
+            }
         }).catch(OhCrap);
         break;
     case "spotify-this-song":
@@ -44,8 +50,17 @@ switch (command) {
         var getURL = "https://www.omdbapi.com/?t=" + parameter
             + "&y=&plot=short&apikey=" + keys.axios.omdb;
         axios.get(getURL).then(function (ack) {
-            console.log(ack);
+            // console.log(ack.data);
+            var theMovie = ack.data;
             // Title, year, IMDB rating, RT rating, production country, language, plot, actors
+            console.log("Title: " + theMovie.Title);
+            console.log("Year: " + theMovie.Year);
+            console.log("IMDB thinks " + theMovie.Ratings[0].Value);
+            console.log("Rotten Tomatoes thinks " + theMovie.Ratings[1].Value);
+            console.log("Made in " + theMovie.Country);
+            console.log("Language: " + theMovie.Language);
+            console.log(theMovie.Plot);
+            console.log("With " + theMovie.Actors);
         }).catch(OhCrap);
         break;
     case "do-what-it-says":
