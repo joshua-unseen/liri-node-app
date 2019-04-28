@@ -8,6 +8,8 @@ var fs = require("fs");
 
 var axios = require("axios");
 
+var moment = require("moment");
+
 var command = process.argv[2];
 var param = process.argv.slice(3).join(" ");
 Liri(command, param);
@@ -60,6 +62,7 @@ function ConcertThis(ack, band) {
     if (theConcerts.length) {
         console.log("I found these " + band + " concerts:")
         for (var i = 0; i < theConcerts.length; i++) {
+            FormedDate = moment(theConcerts[i].datetime).format("MM/DD/YYYY");
             theRegion = "";
             if (theConcerts[i].venue.region.length) {
                 theRegion = theConcerts[i].venue.region + ", ";
@@ -68,7 +71,7 @@ function ConcertThis(ack, band) {
             console.log(theConcerts[i].venue.name);
             console.log(theConcerts[i].venue.city + ", "
                 + theRegion + theConcerts[i].venue.country);
-            console.log(theConcerts[i].datetime);
+            console.log(FormedDate);
         }
     }
     else {
