@@ -90,8 +90,13 @@ function SpotifyThisSong(ack) {
     data.artists.forEach(element => {
         Logger(element.name, true);
     });
-    Logger("Here's a preview:", true);
-    Logger(data.preview_url, true);
+    if (data.preview_url) {
+        Logger("Here's a preview:", true);
+        Logger(data.preview_url, true);
+    }
+    else {
+        Logger("I'm sorry, there's no preview available.", true);
+    }
     Logger("The song is on the album " + data.album.name + ".", true);
 }
 function MovieThis(ack) {
