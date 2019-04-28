@@ -12,6 +12,7 @@ var moment = require("moment");
 
 var command = process.argv[2];
 var param = process.argv.slice(3).join(" ");
+
 Liri(command, param);
 
 function Liri(command, parameter) {
