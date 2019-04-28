@@ -15,7 +15,8 @@ var param = process.argv.slice(3).join(" ");
 Liri(command, param);
 
 function Liri(command, parameter) {
-    Logger(command + " " + parameter, false);
+    Logger("\n++++++++++++++++\n", false);
+    Logger(command + " " + parameter + "\n", false);
     parameter = parameter.split("\"").join("");
     switch (command) {
         case "concert-this":
