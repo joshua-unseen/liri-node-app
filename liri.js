@@ -9,8 +9,8 @@ var fs = require("fs");
 var axios = require("axios");
 
 var command = process.argv[2];
-var parameter = process.argv.slice(3).join(" ");
-Liri(command, parameter);
+var param = process.argv.slice(3).join(" ");
+Liri(command, param);
 
 function Liri(command, parameter) {
     switch (command) {
@@ -52,8 +52,16 @@ function Liri(command, parameter) {
             }
             spotify.search({ type: "track", query: parameter, limit: 1 })
                 .then(function (ack) {
-                    console.log(ack.tracks.items[0]);
+                    // console.log(ack.tracks.items[0]);
+                    var data = ack.tracks.items[0];
                     // Artist(s), name, preview link, album
+                    console.log("The song " + data.name + " is performed by ");
+                    data.artists.forEach(element => {
+                        console.log(element.name);
+                    });
+                    console.log("Here's a preview:");
+                    console.log(data.preview_url);
+                    console.log("The song is on the album " + data.album.name + ".");
                 }).catch(OhCrap);
             break;
         case "movie-this":
@@ -67,14 +75,11 @@ function Liri(command, parameter) {
                 // console.log(ack.data);
                 var theMovie = ack.data;
                 // Title, year, IMDB rating, RT rating, production country, language, plot, actors
-                console.log("Title: " + theMovie.Title);
-                console.log("Year: " + theMovie.Year);
-                console.log("IMDB gives it " + theMovie.Ratings[0].Value);
-                console.log("Rotten Tomatoes gives it " + theMovie.Ratings[1].Value);
-                console.log("Made in " + theMovie.Country);
-                console.log("Language: " + theMovie.Language);
+                console.log("The movie " + theMovie.Title + " was released in " + theMovie.Year + ".");
+                console.log("IMDB gives it " + theMovie.Ratings[0].Value+ ".");
+                console.log("Rotten Tomatoes gives it " + theMovie.Ratings[1].Value+ ".");
+                console.log("It was filmed in " + theMovie.Language + ", in " + theMovie.Country + ", with " + theMovie.Actors+ ".");
                 console.log(theMovie.Plot);
-                console.log("With " + theMovie.Actors);
             }).catch(OhCrap);
             break;
         case "do-what-it-says":
