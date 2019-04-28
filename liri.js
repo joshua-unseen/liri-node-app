@@ -15,6 +15,7 @@ var param = process.argv.slice(3).join(" ");
 Liri(command, param);
 
 function Liri(command, parameter) {
+    parameter = parameter.split("\"").join("");
     switch (command) {
         case "concert-this":
             // Do the bandsintown thing with parameter (or Rick Astley)
@@ -57,6 +58,7 @@ function Liri(command, parameter) {
 }
 function ConcertThis(ack, band) {
     var theConcerts = ack.data;
+    // console.log(band);
     // console.log(theConcerts);
     // Filter for venue, location, date for *each* event
     if (theConcerts.length) {
@@ -104,14 +106,14 @@ function DoWhatItSays(err, data) {
         OhCrap(err);
     }
     else {
-        // console.log(data);
+        console.log(data);
         readArgs = data.split(",");
-        // console.log(readArgs);
+        console.log(readArgs);
         Liri(readArgs[0], readArgs[1]);
     }
 }
 
 function OhCrap(err) {
-    console.log(err);
-    console.log("Shit done broke.");
+    // console.log(err);
+    console.log("I'm sorry, there was a problem retrieving information.");
 }
