@@ -69,8 +69,8 @@ function Liri(command, parameter) {
                 // Title, year, IMDB rating, RT rating, production country, language, plot, actors
                 console.log("Title: " + theMovie.Title);
                 console.log("Year: " + theMovie.Year);
-                console.log("IMDB thinks " + theMovie.Ratings[0].Value);
-                console.log("Rotten Tomatoes thinks " + theMovie.Ratings[1].Value);
+                console.log("IMDB gives it " + theMovie.Ratings[0].Value);
+                console.log("Rotten Tomatoes gives it " + theMovie.Ratings[1].Value);
                 console.log("Made in " + theMovie.Country);
                 console.log("Language: " + theMovie.Language);
                 console.log(theMovie.Plot);
@@ -93,6 +93,9 @@ function DoWhatItSays(err, data) {
     }
     else {
         console.log(data);
+        readArgs = data.split(",");
+        console.log(readArgs);
+        Liri(readArgs[0], readArgs[1]);
     }
 }
 
