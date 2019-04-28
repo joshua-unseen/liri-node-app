@@ -15,6 +15,7 @@ var param = process.argv.slice(3).join(" ");
 Liri(command, param);
 
 function Liri(command, parameter) {
+    Logger(command + " " + parameter, false);
     parameter = parameter.split("\"").join("");
     switch (command) {
         case "concert-this":
@@ -62,54 +63,65 @@ function ConcertThis(ack, band) {
     // console.log(theConcerts);
     // Filter for venue, location, date for *each* event
     if (theConcerts.length) {
-        console.log("I found these " + band + " concerts:")
+        Logger("I found these " + band + " concerts:", true)
         for (var i = 0; i < theConcerts.length; i++) {
             FormedDate = moment(theConcerts[i].datetime).format("MM/DD/YYYY");
             theRegion = "";
             if (theConcerts[i].venue.region.length) {
                 theRegion = theConcerts[i].venue.region + ", ";
             }
-            console.log("");
-            console.log(theConcerts[i].venue.name);
-            console.log(theConcerts[i].venue.city + ", "
-                + theRegion + theConcerts[i].venue.country);
-            console.log(FormedDate);
+            Logger("", true);
+            Logger(theConcerts[i].venue.name, true);
+            Logger(theConcerts[i].venue.city + ", "
+                + theRegion + theConcerts[i].venue.country, true);
+            Logger(FormedDate, true);
         }
     }
     else {
-        console.log("I'm sorry, " + band + " is not touring.")
+        Logger("I'm sorry, " + band + " is not touring.", true);
     }
 }
 function SpotifyThisSong(ack) {
     // console.log(ack.tracks.items[0]);
     var data = ack.tracks.items[0];
     // Artist(s), name, preview link, album
-    console.log("The song " + data.name + " is performed by ");
+    Logger("The song " + data.name + " is performed by ", true);
     data.artists.forEach(element => {
-        console.log(element.name);
+        Logger(element.name, true);
     });
-    console.log("Here's a preview:");
-    console.log(data.preview_url);
-    console.log("The song is on the album " + data.album.name + ".");
+    Logger("Here's a preview:", true);
+    Logger(data.preview_url, true);
+    Logger("The song is on the album " + data.album.name + ".", true);
 }
 function MovieThis(ack) {
     var theMovie = ack.data;
     // Title, year, IMDB rating, RT rating, production country, language, plot, actors
-    console.log("The movie " + theMovie.Title + " was released in " + theMovie.Year + ".");
-    console.log("IMDB gives it " + theMovie.Ratings[0].Value + ".");
-    console.log("Rotten Tomatoes gives it " + theMovie.Ratings[1].Value + ".");
-    console.log("It was filmed in " + theMovie.Language + ", in " + theMovie.Country + ", with " + theMovie.Actors + ".");
-    console.log(theMovie.Plot);
+    Logger("The movie " + theMovie.Title + " was released in " + theMovie.Year + ".", true);
+    Logger("IMDB gives it " + theMovie.Ratings[0].Value + ".", true);
+    Logger("Rotten Tomatoes gives it " + theMovie.Ratings[1].Value + ".", true);
+    Logger("It was filmed in " + theMovie.Language + ", in " + theMovie.Country + ", with " + theMovie.Actors + ".", true);
+    Logger(theMovie.Plot, true);
 }
 function DoWhatItSays(err, data) {
     if (err) {
         OhCrap(err);
     }
     else {
-        console.log(data);
+        // console.log(data);
         readArgs = data.split(",");
-        console.log(readArgs);
+        // console.log(readArgs);
         Liri(readArgs[0], readArgs[1]);
+    }
+}
+
+function Logger(message, display) {
+    fs.appendFileSync("./log.txt", message + "\n", (err) => {
+        if (err){
+            console.log(err);
+        }
+    });
+    if(display) {
+        console.log(message);
     }
 }
 
